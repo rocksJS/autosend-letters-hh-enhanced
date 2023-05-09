@@ -1,7 +1,9 @@
-// Пауза
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+let minimalDelay = 200;
+let maximumDelay = 450;
 
 async function init() {
   var vacancies = document.querySelectorAll('[data-qa="vacancy-serp__vacancy_response"]');
@@ -10,7 +12,7 @@ async function init() {
 
   // Функция для автоматического выбора резюме
   function selectResume() {
-    var resume = document.querySelector('#resume_ID_РЕЗЮМЕ');
+    var resume = document.querySelector('#resume_f8e8ff1bff0beb25fa0039ed1f4a5a58724c31');
     var message = document.querySelector('[data-qa="vacancy-response-letter-toggle"]');
 
     if (!message) {
@@ -24,20 +26,10 @@ async function init() {
   // Функция для автоматической отправки Сопроводительного письма
   function handlerCoverLetter() {
     // Шаблон Сопроводительного письма
-    var vacancyTitle = document.querySelector(
-      '.bloko-modal-header_outlined > div'
-    ).textContent;
+    var vacancyTitle = document.querySelector('.bloko-modal-header_outlined > div').textContent;
     var vacancyName = vacancyTitle.slice(1, vacancyTitle.length - 1);
     var messagesData = {
-      frontend: `Добрый день! 
-
-Меня заинтересовала предложенная Вами вакансия ${vacancyName}. Ознакомившись с перечнем требований к кандидатам, пришел к выводу, что мой опыт работы позволяют мне претендовать на данную должность. 
-
-Обладаю высоким уровнем фронтенд-разработки, свободно говорю по-английски. В работе ответствен, пунктуален и коммуникабелен.
-
-Буду с нетерпением ждать ответа и возможности обсудить условия работы и взаимные ожидания на собеседовании. Спасибо, что уделили время. 
-
-Контактные данные прилагаю.`,
+      frontend: `... some text`,
     };
 
     var messageArea = document.querySelector(
@@ -56,14 +48,28 @@ async function init() {
     btnSubmit.click();
   }
 
+  // Функция для получения кнопки "Все равно откликнуться"
+
+  function clickConfirmCountry() {
+    const button = document.querySelector(
+      'button.bloko-button.bloko-button_kind-success.bloko-button_scale-small[data-qa="relocation-warning-confirm"]'
+    );
+    if (button) {
+      button.click();
+    }
+  }
+
   // Вызвать функцию на странице с вакансией
   if (vacancy) {
     vacancy.click();
 
-    await delay(1000);
+    await delay(maximumDelay);
+    clickConfirmCountry();
+
+    await delay(maximumDelay);
     selectResume();
 
-    await delay(500);
+    await delay(minimalDelay);
     handlerCoverLetter();
   }
   // Иначе вызвать функцию на странице со списком вакансий
@@ -71,21 +77,25 @@ async function init() {
     while (i <= vacancies.length) {
       vacancies[i].click();
 
-      await delay(1000);
+      // Тут должна быть проверка на появление кнопки с последующим нажатием если она есть
+      await delay(maximumDelay);
+      clickConfirmCountry();
+
+      await delay(maximumDelay);
       selectResume();
 
-      await delay(500);
+      await delay(minimalDelay);
       handlerCoverLetter();
       i++;
 
-      await delay(1000);
+      await delay(maximumDelay);
     }
   }
 }
 
 // Добавить на панель доп. функционал
 (async function addNavLinks() {
-  await delay(1000);
+  await delay(maximumDelay);
 
   const navLinks = document.querySelectorAll(
     '.supernova-navi-item.supernova-navi-item_lvl-2.supernova-navi-item_no-mobile'
