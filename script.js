@@ -2,6 +2,8 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Добавил константы для дилея
+
 let minimalDelay = 200;
 let maximumDelay = 450;
 
