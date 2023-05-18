@@ -2,10 +2,20 @@ function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-// Добавил константы для дилея
+// Константы для дилея, содержания сопроводительного письма, ссылки на резюме.
 
-let minimalDelay = 200;
-let maximumDelay = 450;
+const minimalDelay = 200;
+const maximumDelay = 450;
+const coverLetterData = `Добрый день, меня зовут Даниил, мне 22 года, ищу работу Angular разработчиком (Jun+, Middle-).
+Сам из Томска, на данный момент проживаю в Гомеле, рассматриваю переезд в другие города, для работы из офиса.
+Имею опыт в коммерческой разработке (на Angular - 1+ год)
+Основной стек: Angular2+, TS, NGRX, rxJs, различные ui либы.
+
+Если заинтересовал - отпишите пожалуйста сюда, или в телеграм: https://t.me/oshchepkov_daniil
+
+Ниже прикрепляю резюме:
+https://resume.io/r/DdR9aKSaw`;
+const cvLinkId = '#resume_f8e8ff1bff0beb25fa0039ed1f4a5a58724c31';
 
 async function init() {
   var vacancies = document.querySelectorAll('[data-qa="vacancy-serp__vacancy_response"]');
@@ -14,7 +24,7 @@ async function init() {
 
   // Функция для автоматического выбора резюме
   function selectResume() {
-    var resume = document.querySelector('#resume_f8e8ff1bff0beb25fa0039ed1f4a5a58724c31');
+    var resume = document.querySelector(cvLinkId);
     var message = document.querySelector('[data-qa="vacancy-response-letter-toggle"]');
 
     if (!message) {
@@ -31,7 +41,7 @@ async function init() {
     var vacancyTitle = document.querySelector('.bloko-modal-header_outlined > div').textContent;
     var vacancyName = vacancyTitle.slice(1, vacancyTitle.length - 1);
     var messagesData = {
-      frontend: `... some text`,
+      frontend: coverLetterData,
     };
 
     var messageArea = document.querySelector(
